@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.repository.RoleRepository;
@@ -40,4 +41,26 @@ public class AdminController {
         userService.createUser(user);
         return "redirect:/admin";
     }
+
+    @GetMapping("admin/edit/")
+    public String getUpdateUser(@RequestParam("id") long id, Model model){
+        model.addAttribute("user", userService.readUser(id));
+        List<Role> roles = (List<Role>) roleRepository.findAll();
+        model.addAttribute("roles",roles);
+
+        return "edit";
+    }
+
+    @PostMapping("admin/{id}")
+    public String updateUser(Model model, @ModelAttribute("user") User user){
+        userService.updateUser(user);
+        return "redirect:/admin";
+    }
+
+    @PostMapping("admin/delete/")
+    public String deleteUser(@RequestParam("id") long id){
+        userService.deleteUser(id);
+        return "redirect:/admin";
+    }
+
 }
