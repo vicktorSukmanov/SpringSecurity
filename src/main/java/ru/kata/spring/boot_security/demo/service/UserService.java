@@ -5,6 +5,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
@@ -14,7 +16,7 @@ import ru.kata.spring.boot_security.demo.repository.UserRepository;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.*;
-
+@Service
 public class UserService implements UserDetailsService {
     @PersistenceContext
     private EntityManager entityManager;
@@ -46,9 +48,9 @@ public class UserService implements UserDetailsService {
         if(userFromDB!=null){
             throw new UsernameNotFoundException("User already exists!");
         }
-        Set<Role> rols = new HashSet<>();
-        rols.add(new Role(1L,"ROLE_USER"));
-        user.setRole(rols);
+//        Set<Role> rols = new HashSet<>();
+//        rols.add(new Role(1L,"ROLE_USER"));
+//        user.setRole(rols);
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         userRepository.save(user);
     }
