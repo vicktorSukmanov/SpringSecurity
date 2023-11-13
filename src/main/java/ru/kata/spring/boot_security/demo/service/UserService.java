@@ -61,13 +61,13 @@ public class UserService implements UserDetailsService {
     }
     @Transactional
     public void deleteUser(long id){
-        if (userRepository.findById(id).isPresent()) {
+
             userRepository.deleteById(id);
-        }
-        throw new UsernameNotFoundException("User not found");
+
     }
     @Transactional
     public void updateUser(User user){
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         entityManager.merge(user);
         entityManager.flush();
 

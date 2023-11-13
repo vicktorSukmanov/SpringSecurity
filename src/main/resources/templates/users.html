@@ -4,7 +4,39 @@
 <head>
     <meta charset="UTF-8">
     <title>Users</title>
-    <style>table th, table td {padding: 5px;}</style>
+    <style>
+    li { list-style-type: none;  }
+    a {
+        position: fixed;
+        top: 0;
+        width: 60px;
+        margin-top: 0;
+        background: white;
+        padding: 10px;
+        right: 0px;
+    }
+    table {
+        width: 100%;
+        margin-bottom: 20px;
+        border: 15px solid #F2F8F8;
+        border-top: 5px solid #F2F8F8;
+        border-collapse: collapse;
+    }
+    th {
+        font-weight: bold;
+        padding: 5px;
+        background: #F2F8F8;
+        border: none;
+        border-bottom: 5px solid #F2F8F8;
+    }
+    td {
+        padding: 5px;
+        border: none;
+        border-bottom: 5px solid #F2F8F8;
+    }
+
+
+    </style>
 </head>
 <body>
 <h1>Users</h1>
@@ -22,22 +54,20 @@
         </thead>
         <tbody>
         <tr th:each="user : ${users}">
-            <td><a th:href="@{users/?id={id}(id=${user.getId()})}" th:utext="${user.getUsername()}">name</a></td>
+            <td th:utext="${user.getUsername()}">name</a></td>
             <td th:utext="${user.getLastName()}">model</td>
             <td th:utext="${user.getEmail()}">series</td>
             <td th:utext="${user.getPassword()}">series</td>
-            <td ><ul th:each="role:${user.getRole()}">
+            <td ><ul th:each="role:${user.getRole()}" list-style-type = "none">
                 <li th:text="${role}"></li>
             </ul></td>
             <td>
-                <form th:action="@{users/edit/}" method="GET">
+                <form th:action="@{admin/edit/}" method="GET">
                     <input type="hidden" name="id" th:value="${user.getId()}"/>
                     <button type="submit">Update</button>
                 </form>
-            </td>
 
-            <td>
-                <form th:action="@{users/delete/}" method="POST">
+                <form th:action="@{admin/delete/}" method="POST">
                     <input type="hidden" name="id" th:value="${user.getId()}"/>
                     <button type="submit">Delete</button>
                 </form>
@@ -49,7 +79,11 @@
 <br/>
 <form action="admin/new" method="get">
     <input type="hidden" />
-    <button type="submit">Create new user</button>
+   <button type="submit">Create new user</button>
+
 </form>
+<br/>
+<br/>
+<a href="/logout" >Logout</a>
 </body>
 </html>
